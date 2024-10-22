@@ -95,7 +95,8 @@ def interleaved_sum(n, odd_func, even_func):
         if k > n:
             return 0
         return helper_even(k + 2) + even_func(k)
-    return helper_odd(1)+helper_even(2)
+
+    return helper_odd(1) + helper_even(2)
 
 
 def next_larger_coin(coin):
@@ -201,6 +202,12 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start, end)
+    else:
+        move_stack(n - 1, start, 6 - start - end)
+        print_move(start, end)
+        move_stack(n - 1, 6 - start - end, end)
 
 
 from operator import sub, mul
@@ -217,4 +224,5 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    from functools import reduce
+    return lambda n: reduce(mul, range(1, n + 1))
