@@ -21,9 +21,14 @@ def deep_map(f, s):
     True
     """
     "*** YOUR CODE HERE ***"
+    for i in range(len(s)):
+        if isinstance(s[i], int):
+            s[i] = f(s[i])
+        else:
+            deep_map(f, s[i])
 
 
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
 
 
 def mobile(left, right):
@@ -32,52 +37,65 @@ def mobile(left, right):
     assert is_arm(right), "right must be an arm"
     return ['mobile', left, right]
 
+
 def is_mobile(m):
     """Return whether m is a mobile."""
     return type(m) == list and len(m) == 3 and m[0] == 'mobile'
+
 
 def left(m):
     """Select the left arm of a mobile."""
     assert is_mobile(m), "must call left on a mobile"
     return m[1]
 
+
 def right(m):
     """Select the right arm of a mobile."""
     assert is_mobile(m), "must call right on a mobile"
     return m[2]
+
 
 def arm(length, mobile_or_planet):
     """Construct an arm: a length of rod with a mobile or planet at the end."""
     assert is_mobile(mobile_or_planet) or is_planet(mobile_or_planet)
     return ['arm', length, mobile_or_planet]
 
+
 def is_arm(s):
     """Return whether s is an arm."""
     return type(s) == list and len(s) == 3 and s[0] == 'arm'
+
 
 def length(s):
     """Select the length of an arm."""
     assert is_arm(s), "must call length on an arm"
     return s[1]
 
+
 def end(s):
     """Select the mobile or planet hanging at the end of an arm."""
     assert is_arm(s), "must call end on an arm"
     return s[2]
 
+
 def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', mass]
+
 
 def mass(p):
     """Select the mass of a planet."""
     assert is_planet(p), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return p[1]
+
 
 def is_planet(p):
     """Whether p is a planet."""
     return type(p) == list and len(p) == 2 and p[0] == 'planet'
+
 
 def examples():
     t = mobile(arm(1, planet(2)),
@@ -87,6 +105,7 @@ def examples():
                              arm(3, planet(2)))))
     v = mobile(arm(4, t), arm(2, u))
     return t, u, v
+
 
 def total_mass(m):
     """Return the total mass of m, a planet or mobile.
@@ -104,6 +123,7 @@ def total_mass(m):
     else:
         assert is_mobile(m), "must get total mass of a mobile or a planet"
         return total_mass(end(left(m))) + total_mass(end(right(m)))
+
 
 def balanced(m):
     """Return whether m is balanced.
@@ -126,9 +146,14 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+    if total_mass(end(left(m))) * length(left(m)) != total_mass(end(right(m))) * length(right(m)):
+        return False
+    return balanced(end(left(m))) and balanced(end(right(m)))
 
 
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
 
 
 def max_path_sum(t):
@@ -141,7 +166,9 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
-
+    if is_leaf(t):
+        return label(t)
+    return label(t)+max([max_path_sum(child) for child in branches(t)])
 
 
 # Tree Data Abstraction
@@ -152,13 +179,16 @@ def tree(label, branches=[]):
         assert is_tree(branch), 'branches must be trees'
     return [label] + list(branches)
 
+
 def label(tree):
     """Return the label value of a tree."""
     return tree[0]
 
+
 def branches(tree):
     """Return the list of branches of the given tree."""
     return tree[1:]
+
 
 def is_tree(tree):
     """Returns True if the given tree is a tree, and False otherwise."""
@@ -169,11 +199,13 @@ def is_tree(tree):
             return False
     return True
 
+
 def is_leaf(tree):
     """Returns True if the given tree's list of branches is empty, and False
     otherwise.
     """
     return not branches(tree)
+
 
 def print_tree(t, indent=0):
     """Print a representation of this tree in which each node is
@@ -183,7 +215,7 @@ def print_tree(t, indent=0):
     1
     >>> print_tree(tree(1, [tree(2)]))
     1
-      2
+     2
     >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
     >>> print_tree(numbers)
     1
@@ -198,6 +230,7 @@ def print_tree(t, indent=0):
     for b in branches(t):
         print_tree(b, indent + 1)
 
+
 def copy_tree(t):
     """Returns a copy of t. Only for testing purposes.
 
@@ -208,4 +241,3 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
-
