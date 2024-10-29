@@ -1,4 +1,6 @@
+from calendar import firstweekday
 from itertools import count
+from tkinter.messagebox import RETRY
 
 HW_SOURCE_FILE = __file__
 
@@ -80,6 +82,10 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
+    if n == 0:
+        return 0
+    val = next(t)
+    return count_occurrences(t, n - 1, x) if val != x else 1 + count_occurrences(t, n - 1, x)
 
 
 def repeated(t, k):
@@ -103,6 +109,23 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    first = next(t)
+    second = next(t)
+    while True:
+        if first != second:
+            first = second
+            second = next(t)
+        else:
+            num = 2
+            while num < k:
+                first = second
+                second = next(t)
+                if first == second:
+                    num += 1
+                else:
+                    break
+            if num == k:
+                return second
 
 
 def sprout_leaves(t, leaves):
@@ -139,6 +162,17 @@ def sprout_leaves(t, leaves):
           2
     """
     "*** YOUR CODE HERE ***"
+    sprout(t, leaves)
+    return t
+
+
+def sprout(tre, leaves):
+    if is_leaf(tre):
+        for i in leaves:
+            tre.append([i])
+    else:
+        for branch in branches(tre):
+            sprout(branch, leaves)
 
 
 def partial_reverse(s, start):
@@ -154,6 +188,11 @@ def partial_reverse(s, start):
     [1, 2, 7, 6, 5, 3, 4]
     """
     "*** YOUR CODE HERE ***"
+    i = start
+    while i <= (start + len(s) - 1) // 2:
+        j = start + len(s) - 1 - i
+        s[i], s[j] = s[j], s[i]
+        i += 1
 
 
 # Tree Data Abstraction
