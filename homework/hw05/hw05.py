@@ -9,6 +9,12 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    while True:
+        yield n
+        if n % 2 == 0 and n != 1:
+            n //= 2
+        elif n % 2 == 1 and n != 1:
+            n = 3 * n + 1
 
 
 def merge(a, b):
@@ -24,6 +30,19 @@ def merge(a, b):
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
     "*** YOUR CODE HERE ***"
+    val_a = next(a)
+    val_b = next(b)
+    while True:
+        n = val_a
+        if val_a == val_b:
+            val_a = next(a)
+            val_b = next(b)
+        elif val_a < val_b:
+            val_a = next(a)
+        else:
+            n = val_b
+            val_b = next(b)
+        yield n
 
 
 def yield_paths(t, value):
@@ -61,11 +80,10 @@ def yield_paths(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
     if label(t) == value:
-        yield ____
+        yield [label(t)]
     for b in branches(t):
-        for ____ in ____:
-            yield ____
-
+        for path in yield_paths(b,value):
+            yield [label(t)]+path
 
 
 # Tree Data Abstraction
@@ -76,13 +94,16 @@ def tree(label, branches=[]):
         assert is_tree(branch), 'branches must be trees'
     return [label] + list(branches)
 
+
 def label(tree):
     """Return the label value of a tree."""
     return tree[0]
 
+
 def branches(tree):
     """Return the list of branches of the given tree."""
     return tree[1:]
+
 
 def is_tree(tree):
     """Returns True if the given tree is a tree, and False otherwise."""
@@ -93,11 +114,13 @@ def is_tree(tree):
             return False
     return True
 
+
 def is_leaf(tree):
     """Returns True if the given tree's list of branches is empty, and False
     otherwise.
     """
     return not branches(tree)
+
 
 def print_tree(t, indent=0):
     """Print a representation of this tree in which each node is
@@ -122,6 +145,7 @@ def print_tree(t, indent=0):
     for b in branches(t):
         print_tree(b, indent + 1)
 
+
 def copy_tree(t):
     """Returns a copy of t. Only for testing purposes.
 
@@ -132,4 +156,3 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
-
