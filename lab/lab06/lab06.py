@@ -1,3 +1,6 @@
+from xxsubtype import bench
+
+
 class Transaction:
     def __init__(self, id, before, after):
         self.id = id
@@ -7,6 +10,7 @@ class Transaction:
     def changed(self):
         """Return whether the transaction resulted in a changed balance."""
         "*** YOUR CODE HERE ***"
+        return self.before != self.after
 
     def report(self):
         """Return a string describing the transaction.
@@ -21,7 +25,12 @@ class Transaction:
         msg = 'no change'
         if self.changed():
             "*** YOUR CODE HERE ***"
+            if self.before < self.after:
+                msg = 'increased ' + str(self.before) + '->' + str(self.after)
+            else:
+                msg = 'decreased ' + str(self.before) + '->' + str(self.after)
         return str(self.id) + ': ' + msg
+
 
 class Account:
     """A bank account that tracks its transaction history.
@@ -67,12 +76,17 @@ class Account:
     def __init__(self, account_holder):
         self.balance = 0
         self.holder = account_holder
+        self.transactions = []
+        self.id = 0
 
     def deposit(self, amount):
         """Increase the account balance by amount, add the deposit
         to the transaction history, and return the new balance.
         """
+        before = self.balance
         self.balance = self.balance + amount
+        self.transactions.append(Transaction(self.id, before, self.balance))
+        self.id += 1
         return self.balance
 
     def withdraw(self, amount):
@@ -80,11 +94,14 @@ class Account:
         to the transaction history, and return the new balance.
         """
         if amount > self.balance:
+            self.transactions.append(Transaction(self.id, self.balance, self.balance))
+            self.id += 1
             return 'Insufficient funds'
+        before = self.balance
         self.balance = self.balance - amount
+        self.transactions.append(Transaction(self.id, before, self.balance))
+        self.id += 1
         return self.balance
-
-
 
 
 class Email:
@@ -94,25 +111,29 @@ class Email:
         sender (Client): the client that sent the email
         recipient_name (str): the name of the recipient (another client)
     """
+
     def __init__(self, msg, sender, recipient_name):
         self.msg = msg
         self.sender = sender
         self.recipient_name = recipient_name
 
+
 class Server:
     """Each Server has one instance attribute called clients that is a
     dictionary from client names to client objects.
     """
+
     def __init__(self):
         self.clients = {}
 
     def send(self, email):
         """Append the email to the inbox of the client it is addressed to."""
-        ____.inbox.append(email)
+        self.clients[email.recipient_name].inbox.append(email)
 
     def register_client(self, client):
         """Add a client to the dictionary of clients."""
-        ____[____] = ____
+        self.clients[client.name] = client
+
 
 class Client:
     """A client has a server, a name (str), and an inbox (list).
@@ -131,15 +152,16 @@ class Client:
     >>> b.inbox[1].sender.name
     'Alice'
     """
+
     def __init__(self, server, name):
         self.inbox = []
         self.server = server
         self.name = name
-        server.register_client(____)
+        server.register_client(self)
 
     def compose(self, message, recipient_name):
         """Send an email with the given message to the recipient."""
-        email = Email(message, ____, ____)
+        email = Email(message, self, recipient_name)
         self.server.send(email)
 
 
@@ -177,6 +199,12 @@ def make_change(amount, coins):
     if amount < smallest:
         return None
     "*** YOUR CODE HERE ***"
+    if amount == smallest:
+        return [smallest]
+    if make_change(amount - smallest, rest):
+        return [smallest] + make_change(amount - smallest, rest)
+    return make_change(amount, rest)
+
 
 def remove_one(coins, coin):
     """Remove one coin from a dictionary of coins. Return a new dictionary,
@@ -193,8 +221,9 @@ def remove_one(coins, coin):
     copy = dict(coins)
     count = copy.pop(coin) - 1  # The coin denomination is removed
     if count:
-        copy[coin] = count      # The coin denomination is added back
+        copy[coin] = count  # The coin denomination is added back
     return copy
+
 
 class ChangeMachine:
     """A change machine holds a certain number of coins, initially all pennies.
@@ -266,10 +295,15 @@ class ChangeMachine:
     >>> m.coins == {2: 1, 7: 1}
     True
     """
+
     def __init__(self, pennies):
         self.coins = {1: pennies}
 
     def change(self, coin):
         """Return change for coin, removing the result from self.coins."""
         "*** YOUR CODE HERE ***"
-
+        self.coins[coin] = self.coins.get(coin, 0) + 1
+        lst = make_change(coin, self.coins)
+        for i in lst:
+            self.coins = remove_one(self.coins, i)
+        return lst
