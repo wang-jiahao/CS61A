@@ -1,5 +1,6 @@
 passphrase = '*** PASSPHRASE HERE ***'
 
+
 def midsem_survey(p):
     """
     You do not need to understand this code.
@@ -48,7 +49,37 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    funds=0
+    stocks=0
+    def __init__(self, product, price):
+        self.product = product
+        self.price = price
+    def vend(self):
+        if self.stocks==0:
+            print("'Nothing left to vend. Please restock.'")
+        else:
+            if self.funds<self.price:
+                add=self.price-self.funds
+                print(f"'Please add ${add} more funds.'")
+            elif self.funds==self.price:
+                self.funds=0
+                self.stocks-=1
+                print(f"'Here is your {self.product}.'")
+            else:
+                change=self.funds-self.price
+                self.funds=0
+                self.stocks-=1
+                print(f"'Here is your {self.product} and ${change} change.'")
 
+    def restock(self,stock):
+        self.stocks+=stock
+        print(f"'Current {self.product} stock: {self.stocks}'")
+    def add_funds(self,fund):
+        if self.stocks==0:
+            print(f"'Nothing left to vend. Please restock. Here is your ${fund}.'")
+        else:
+            self.funds+=fund
+            print(f"'Current balance: ${self.funds}'")
 
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
@@ -153,4 +184,3 @@ class Link:
             string += str(self.first) + ' '
             self = self.rest
         return string + str(self.first) + '>'
-
