@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bd0b9ade-7da5-4293-a15f-b11ec21d9645" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/.ok_history" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw06.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw06.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../project/ants/.ok_history" beforeDir="false" afterPath="$PROJECT_DIR$/../../project/ants/.ok_history" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
       <workItem from="1730710328057" duration="12000" />
       <workItem from="1731332932014" duration="1555000" />
       <workItem from="1731336891103" duration="2422000" />
-      <workItem from="1731394696113" duration="3187000" />
+      <workItem from="1731394696113" duration="4255000" />
     </task>
     <servers />
   </component>
@@ -66,6 +63,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/hw06$Doctests__hw06__.coverage" NAME="Doctests (hw06 内) 覆盖结果" MODIFIED="1731398161640" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/hw06$Doctests__hw06__.coverage" NAME="Doctests (hw06 内) 覆盖结果" MODIFIED="1731398252330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
