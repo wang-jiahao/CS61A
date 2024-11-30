@@ -2,4 +2,10 @@
 
 **I finally finish CS61A python parts !**    (2024-11-28)
 
-website: [cs61a.org/](https://cs61a.org/)
+## version
+
+24 spring
+
+## website
+
+ [cs61a.org/](https://cs61a.org/)
